@@ -18,11 +18,11 @@ int is_palindrome(listint_t **head)
  * @last: ptr to the end of the list
  * Return: 0 if not palindrom else 1
  */
-int verify_pal(listint_t **head, listint_t *last)
+int verify_pal(listint_t **head, listint_t *fin)
 {
-	if (last == NULL)
+	if (fin == NULL)
 		return (1);
-	if (verify_pal(head, last->next) && (*head)->n == last->n)
+	if (verify_pal(head, fin->next) && (*head)->n == fin->n)
 	{
 		*head = (*head)->next;
 		return (1);
