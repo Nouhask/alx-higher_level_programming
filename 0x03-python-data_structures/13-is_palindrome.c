@@ -22,7 +22,7 @@ int verify_pal(listint_t **head, listint_t *last)
 {
 	if (last == NULL)
 		return (1);
-	if (verify_pal(head, last->next) && (*head)->pp == last->pp)
+	if (verify_pal(head, last->next) && (*head)->n == last->n)
 	{
 		*head = (*head)->next;
 		return (1);
