@@ -1,50 +1,67 @@
+#include <stdlib.h>
 #include "lists.h"
 
-/**
- * is_palindrome - function to call check_pal to see if list is palindrome
- * @head: ptr to the beginning of the list
- * Return: 0 if not palindrome else 1
- */
+listint_t *reverse_list(listint_t *head);
+
 int is_palindrome(listint_t **head)
 {
-    listint_t *slow, *fast;
+    listint_t *slow_ptr = *head, *fast_ptr = *head;
+    listint_t *first_half = NULL, *second_half = NULL;
+    listint_t *prev_slow_ptr = NULL;
 
-    if (head == NULL || *head == NULL)
+    if (!slow_ptr || !slow_ptr->next)
         return (1);
 
-    slow = *head;
-    fast = (*head)->next;
-
-    while (fast != NULL && fast->next != NULL)
+    while (fast_ptr && fast_ptr->next)
     {
-        fast = fast->next->next;
-        slow = slow->next;
+        fast_ptr = fast_ptr->next->next;
+
+        if (!prev_slow_ptr)
+        {
+            first_half = slow_ptr;
+            second_half = slow_ptr->next;
+        }
+        else
+        {
+            first_half = prev_slow_ptr->next;
+            second_half = slow_ptr->next;
+        }
+
+        prev_slow_ptr = slow_ptr;
+        slow_ptr = slow_ptr->next;
     }
 
-    while (slow != NULL && *head != NULL)
+    if (fast_ptr)
+        slow_ptr = slow_ptr->next;
+
+    second_half = reverse_list(second_half);
+
+    while (first_half && second_half)
     {
-        if (slow->n != (*head)->n)
+        if (first_half->n != second_half->n)
             return (0);
-        slow = slow->next;
-        *head = (*head)->next;
+
+        first_half = first_half->next;
+        second_half = second_half->next;
     }
+
+    if (first_half || second_half)
+        return (0);
 
     return (1);
 }
-/**
- * check_pal - function to check if the list is palindrome
- * @head: ptr to the beginning of the list
- * @last: ptr to the end of the list
- * Return: 0 if not palindrom else 1
- */
-int check_pal(listint_t **head, listint_t *last)
+
+listint_t *reverse_list(listint_t *head)
 {
-	if (last == NULL)
-		return (1);
-	if (check_pal(head, last->next) && (*head)->n == last->n)
-	{
-		*head = (*head)->next;
-		return (1);
-	}
-	return (0);
+    listint_t *prev = NULL, *next = NULL;
+
+    while (head)
+    {
+        next = head->next;
+        head->next = prev;
+        prev = head;
+        head = next;
+    }
+
+    return (prev);
 }
