@@ -7,11 +7,30 @@
  */
 int is_palindrome(listint_t **head)
 {
-	if (head == NULL || *head == NULL)
-		return (1);
-	return (check_pal(head, *head));
-}
+    listint_t *slow, *fast;
 
+    if (head == NULL || *head == NULL)
+        return (1);
+
+    slow = *head;
+    fast = (*head)->next;
+
+    while (fast != NULL && fast->next != NULL)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+
+    while (slow != NULL && *head != NULL)
+    {
+        if (slow->n != (*head)->n)
+            return (0);
+        slow = slow->next;
+        *head = (*head)->next;
+    }
+
+    return (1);
+}
 /**
  * check_pal - function to check if the list is palindrome
  * @head: ptr to the beginning of the list
