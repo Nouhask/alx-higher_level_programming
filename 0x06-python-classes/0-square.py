@@ -6,6 +6,6 @@ Define a class Square
 
 class Square:
     """
-    Represent a square
+    représenter a square
     """
     pass
